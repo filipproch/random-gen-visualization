@@ -1,5 +1,3 @@
-package cz.jacktech.ppa1.seminar;
-
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -12,6 +10,13 @@ import java.util.*;
  */
 public class Ppa1_SP_A15B0549P {
 
+    private static Scanner scanner = new Scanner(System.in);
+
+    /**
+     * Main class constructor, call from main
+     * @author Filip Procházka
+     * @param args command line arguments
+     */
     public Ppa1_SP_A15B0549P(String[] args) {
         PseudoGenerator gen = new PseudoGenerator();
         DataWorker worker = new DataWorker();
@@ -21,11 +26,28 @@ public class Ppa1_SP_A15B0549P {
             for(String numString : args) {
                 int num = Integer.parseInt(numString);
                 gen.generate(num);
-                worker.printFormattedData(gen.getResults());
+                worker.writeFormattedData(gen.getResults());
             }
         } else {
-
+            if(scanner == null) {
+                scanner = new Scanner(System.in);
+            }
+            String file = scanner.nextLine();
+            try {
+                BufferedReader reader = new BufferedReader(new FileReader(file));
+                String line;
+                while((line = reader.readLine()) != null) {
+                    int num = Integer.parseInt(line);
+                    gen.generate(num);
+                    worker.printFormattedData(gen.getResults());
+                }
+                reader.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
+
+        worker.close();
     }
 
     public static void main(String[] args) {
@@ -36,34 +58,39 @@ public class Ppa1_SP_A15B0549P {
 
         private FileWriter mWriter;
         private UltimateSorter mSorter = new UltimateSorter();
-        private Scanner mScanner;
+        private boolean mPrintedResultsString = false;
+        private boolean mRecreatedFile = false;
 
         public DataWorker() {}
 
-        public ArrayList<Integer> readData() {
-            if(mScanner == null) {
-                mScanner = new Scanner(System.in);
-            }
-            String file = mScanner.nextLine();
-            ArrayList<Integer>
-            try {
-                BufferedReader reader = new BufferedReader(new FileReader(file));
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-
+        /**
+         * Prints out given data in required format
+         * <pre>
+         *     ${data.size()} [data.get(0), ..., data.get(data.size()-1)] //unsorted
+         *     ${data.size()} [...] //sorted data
+         * </pre>
+         * @author Filip Procházka
+         * @param data
+         */
         public void printFormattedData(ArrayList<Integer> data) {
+            if(!mPrintedResultsString) {
+                System.out.println("---Vysledky---");
+                mPrintedResultsString = true;
+            }
             System.out.print(formatData(data));
         }
+
 
         public void writeFormattedData(ArrayList<Integer> data) {
             try {
                 if(mWriter == null) {
-                    mWriter = new FileWriter("vystup.txt", false);
+                    mWriter = new FileWriter("vystup.txt", mRecreatedFile);
                 }
                 mWriter.append(formatData(data));
+                if(!mRecreatedFile) {
+                    mRecreatedFile = true;
+                }
+                mWriter.flush();
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -71,10 +98,21 @@ public class Ppa1_SP_A15B0549P {
 
         private String formatData(ArrayList<Integer> data) {
             StringBuilder sb = new StringBuilder();
-            sb.append(data.size()).append(" ").append(data.toString());
-            sb.append(data.size()).append(" ").append(Arrays.toString(mSorter.sortList(data)));
+            sb.append(data.size()).append(" ").append(data.toString()).append("\n");
+            sb.append(data.size()).append(" ").append(Arrays.toString(mSorter.sortList(data))).append("\n");
             sb.append("\n");
             return sb.toString();
+        }
+
+        public void close() {
+            if(mWriter != null) {
+                try {
+                    mWriter.flush();
+                    mWriter.close();
+                } catch (IOException e){
+                    e.printStackTrace();
+                }
+            }
         }
 
     }
@@ -122,15 +160,11 @@ public class Ppa1_SP_A15B0549P {
         }
 
         private void runGenerator() {
-            int lastNumber = -1;
+            int lastNumber = startNumber;
             do {
-                int power;
-                if(lastNumber == -1) {
-                    power = (int) Math.pow(startNumber, 2);
-                } else {
-                    power = (int) Math.pow(lastNumber, 2);
-                }
-                lastNumber = extractTwoDigits(power);
+                pseudoNumbers.add(lastNumber);
+                int power = (int) Math.pow(lastNumber, 2);
+                lastNumber = extractTwoDigits(power)+1;
             } while(!pseudoNumbers.contains(lastNumber));
         }
 
