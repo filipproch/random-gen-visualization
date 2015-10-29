@@ -70,7 +70,7 @@ public class Ppa1_SP_A15B0549P {
          *     ${data.size()} [...] //sorted data
          * </pre>
          * @author Filip Procházka
-         * @param data
+         * @param data the list of data to print
          */
         public void printFormattedData(ArrayList<Integer> data) {
             if(!mPrintedResultsString) {
@@ -80,7 +80,11 @@ public class Ppa1_SP_A15B0549P {
             System.out.print(formatData(data));
         }
 
-
+        /**
+         * Writes given data to file in required format
+         * @author Filip Procházka
+         * @param data the list of data to write to file
+         */
         public void writeFormattedData(ArrayList<Integer> data) {
             try {
                 if(mWriter == null) {
@@ -123,6 +127,12 @@ public class Ppa1_SP_A15B0549P {
 
         public UltimateSorter() {}
 
+        /**
+         *
+         * @author Filip Procházka
+         * @param unsortedList the list of data to sort
+         * @return sorted list ${unsortedList}, transformed to array
+         */
         public int[] sortList(List<Integer> unsortedList) {
             mWorkArray = new int[unsortedList.size()];
             for(int i = 0;i < mWorkArray.length;i++) {
@@ -174,6 +184,18 @@ public class Ppa1_SP_A15B0549P {
 
         public ArrayList<Integer> getResults() {
             return pseudoNumbers;
+        }
+
+    }
+
+    private static class TerminalDrawer {
+
+        //https://github.com/jline/jline2/blob/master/src/test/java/jline/example/Example.java
+
+        public TerminalDrawer(){}
+
+        public void test() {
+
         }
 
     }
