@@ -1,12 +1,25 @@
+package cz.jacktech.zcu;
+
+import com.googlecode.lanterna.TerminalPosition;
+import com.googlecode.lanterna.TerminalSize;
+import com.googlecode.lanterna.graphics.TextGraphics;
+import com.googlecode.lanterna.screen.Screen;
+import com.googlecode.lanterna.screen.TerminalScreen;
+import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
+import com.googlecode.lanterna.terminal.Terminal;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Scanner;
 
 /**
  * Created by fprochaz on 24.9.2015.
- * @author Filip Proch·zka (fprochaz)
+ * @author Filip Proch√°zka (fprochaz)
  */
 public class Ppa1_SP_A15B0549P {
 
@@ -14,12 +27,13 @@ public class Ppa1_SP_A15B0549P {
 
     /**
      * Main class constructor, call from main
-     * @author Filip Proch·zka
+     * @author Filip Proch√°zka
      * @param args command line arguments
      */
     public Ppa1_SP_A15B0549P(String[] args) {
         PseudoGenerator gen = new PseudoGenerator();
         DataWorker worker = new DataWorker();
+        TerminalDrawer drawer = new TerminalDrawer();
 
         if(args.length > 0) {
             //parameters entered
@@ -69,7 +83,7 @@ public class Ppa1_SP_A15B0549P {
          *     ${data.size()} [data.get(0), ..., data.get(data.size()-1)] //unsorted
          *     ${data.size()} [...] //sorted data
          * </pre>
-         * @author Filip Proch·zka
+         * @author Filip Proch√°zka
          * @param data the list of data to print
          */
         public void printFormattedData(ArrayList<Integer> data) {
@@ -82,7 +96,7 @@ public class Ppa1_SP_A15B0549P {
 
         /**
          * Writes given data to file in required format
-         * @author Filip Proch·zka
+         * @author Filip Proch√°zka
          * @param data the list of data to write to file
          */
         public void writeFormattedData(ArrayList<Integer> data) {
@@ -129,7 +143,7 @@ public class Ppa1_SP_A15B0549P {
 
         /**
          *
-         * @author Filip Proch·zka
+         * @author Filip Proch√°zka
          * @param unsortedList the list of data to sort
          * @return sorted list ${unsortedList}, transformed to array
          */
@@ -188,14 +202,48 @@ public class Ppa1_SP_A15B0549P {
 
     }
 
+    //https://github.com/jline/jline2/blob/master/src/test/java/jline/example/Example.java
     private static class TerminalDrawer {
 
-        //https://github.com/jline/jline2/blob/master/src/test/java/jline/example/Example.java
+        private static final int maxColumnWidth = 10;
 
-        public TerminalDrawer(){}
+        private Terminal terminal;
+        private TerminalScreen screen;
+        private TextGraphics graphics;
+
+        public TerminalDrawer(){
+            initTerminal();
+        }
+
+        private void initTerminal() {
+            try {
+                terminal = new DefaultTerminalFactory().createTerminal();
+                screen = new TerminalScreen(terminal);
+                graphics = screen.newTextGraphics();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        public void start() throws IOException {
+            screen.startScreen();
+            screen.clear();
+        }
+
+        public void stop() throws IOException {
+            screen.stopScreen();
+        }
 
         public void test() {
+            try {
+                graphics.drawRectangle(
+                        new TerminalPosition(3, 3), new TerminalSize(10, 10), '‚ñà');
+                screen.refresh();
 
+                screen.readInput();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
     }
