@@ -1,12 +1,4 @@
-package cz.jacktech.zcu;
-
-import com.googlecode.lanterna.TerminalPosition;
-import com.googlecode.lanterna.TerminalSize;
-import com.googlecode.lanterna.graphics.TextGraphics;
-import com.googlecode.lanterna.screen.Screen;
-import com.googlecode.lanterna.screen.TerminalScreen;
-import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
-import com.googlecode.lanterna.terminal.Terminal;
+import graphics.TerminalDrawer;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -198,52 +190,6 @@ public class Ppa1_SP_A15B0549P {
 
         public ArrayList<Integer> getResults() {
             return pseudoNumbers;
-        }
-
-    }
-
-    //https://github.com/jline/jline2/blob/master/src/test/java/jline/example/Example.java
-    private static class TerminalDrawer {
-
-        private static final int maxColumnWidth = 10;
-
-        private Terminal terminal;
-        private TerminalScreen screen;
-        private TextGraphics graphics;
-
-        public TerminalDrawer(){
-            initTerminal();
-        }
-
-        private void initTerminal() {
-            try {
-                terminal = new DefaultTerminalFactory().createTerminal();
-                screen = new TerminalScreen(terminal);
-                graphics = screen.newTextGraphics();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-        public void start() throws IOException {
-            screen.startScreen();
-            screen.clear();
-        }
-
-        public void stop() throws IOException {
-            screen.stopScreen();
-        }
-
-        public void test() {
-            try {
-                graphics.drawRectangle(
-                        new TerminalPosition(3, 3), new TerminalSize(10, 10), '█');
-                screen.refresh();
-
-                screen.readInput();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
         }
 
     }
