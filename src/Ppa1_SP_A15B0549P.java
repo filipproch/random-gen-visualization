@@ -1,4 +1,4 @@
-import graphics.TerminalDrawer;
+//import graphics.TerminalDrawer;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -11,7 +11,7 @@ import java.util.Scanner;
 
 /**
  * Created by fprochaz on 24.9.2015.
- * @author Filip Procházka (fprochaz)
+ * @author Filip Prochazka (fprochaz)
  */
 public class Ppa1_SP_A15B0549P {
 
@@ -19,21 +19,31 @@ public class Ppa1_SP_A15B0549P {
 
     /**
      * Main class constructor, call from main
-     * @author Filip Procházka
+     * @author Filip Prochazka
      * @param args command line arguments
      */
     public Ppa1_SP_A15B0549P(String[] args) {
         PseudoGenerator gen = new PseudoGenerator();
         DataWorker worker = new DataWorker();
-        TerminalDrawer drawer = new TerminalDrawer();
 
         if(args.length > 0) {
+            //TerminalDrawer drawer = new TerminalDrawer();
+            /*try {
+                drawer.start();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }*/
+            List<List<Integer>> seriesList = new ArrayList<>();
+
             //parameters entered
             for(String numString : args) {
                 int num = Integer.parseInt(numString);
                 gen.generate(num);
                 worker.writeFormattedData(gen.getResults());
+                seriesList.add(gen.getResults());
             }
+
+            //drawer.init(seriesList);
         } else {
             if(scanner == null) {
                 scanner = new Scanner(System.in);
@@ -75,7 +85,7 @@ public class Ppa1_SP_A15B0549P {
          *     ${data.size()} [data.get(0), ..., data.get(data.size()-1)] //unsorted
          *     ${data.size()} [...] //sorted data
          * </pre>
-         * @author Filip Procházka
+         * @author Filip Prochazka
          * @param data the list of data to print
          */
         public void printFormattedData(ArrayList<Integer> data) {
@@ -88,7 +98,7 @@ public class Ppa1_SP_A15B0549P {
 
         /**
          * Writes given data to file in required format
-         * @author Filip Procházka
+         * @author Filip Prochazka
          * @param data the list of data to write to file
          */
         public void writeFormattedData(ArrayList<Integer> data) {
@@ -135,7 +145,7 @@ public class Ppa1_SP_A15B0549P {
 
         /**
          *
-         * @author Filip Procházka
+         * @author Filip Prochazka
          * @param unsortedList the list of data to sort
          * @return sorted list ${unsortedList}, transformed to array
          */

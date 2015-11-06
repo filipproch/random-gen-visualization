@@ -1,5 +1,6 @@
 package graphics;
 
+import com.googlecode.lanterna.TerminalPosition;
 import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.graphics.TextGraphics;
 
@@ -16,8 +17,8 @@ public class Chart {
 
     private static final int COLLUMN_SPACE_WIDTH = 1;
 
-    private final TerminalSize start;
-    private final TerminalSize end;
+    private final TerminalPosition start;
+    private final TerminalPosition end;
 
     private ArrayList<Integer> bars = new ArrayList<>();
     private ArrayList<Float> cachedBars = new ArrayList<>();
@@ -27,7 +28,7 @@ public class Chart {
     private int maxVal;
     private int barHeight;
 
-    public Chart(List<Integer> series, TerminalSize start, TerminalSize end) {
+    public Chart(List<Integer> series, TerminalPosition start, TerminalPosition end) {
         this.start = start;
         this.end = end;
 
@@ -67,7 +68,9 @@ public class Chart {
     }
 
     public void render(TextGraphics graphics) {
-
+        graphics.drawRectangle(, end, '-');
+        graphics.drawLine(0, 10, end.getColumns(), 10, '-');
+        graphics.drawLine(0, 15, end.getColumns(), 15, '-');
     }
 
 }

@@ -49,7 +49,7 @@ public class TerminalDrawer {
             screen.startScreen();
             screen.clear();
 
-            graphStart = new TerminalSize(0, 0);
+            graphStart = new TerminalPosition(0, 0);
             graphEnd = new TerminalSize(terminal.getTerminalSize().getColumns(), terminal.getTerminalSize().getRows()-2);
 
             started = true;
@@ -66,14 +66,28 @@ public class TerminalDrawer {
         for(List<Integer> serie: listSeries) {
             charts.add(new Chart(serie, graphStart, graphEnd));
         }
+
+        setupControls();
+        render();
+    }
+
+    private void render() {
+        try {
+            screen.clear();
+            charts.get(page).render(graphics);
+
+            screen.refresh();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void setupControls() {
+
     }
 
     public void stop() throws IOException {
         screen.stopScreen();
-    }
-
-    public void addChart(Chart chart) {
-        charts.add(chart);
     }
 
     /*public void test() {
