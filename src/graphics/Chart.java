@@ -73,6 +73,12 @@ public class Chart {
     }
 
     public void render(TextGraphics graphics, int[] array, int[] highlight) {
+        int step = (int) Math.ceil((end.getRow()-start.getRow())/10f);
+        for (int i = 0;i < 10;i++) {
+            graphics.setForegroundColor(new TextColor.RGB(50, 50, 50));
+            graphics.drawLine(start.getColumn(), end.getRow()-1-(i*step), end.getColumn(), end.getRow()-1-(i*step), '_');
+        }
+
         Float[] bars = calculate(array);
         for (int i = 0;i < bars.length;i++) {
             int x = start.getColumn()+3+4*i;
@@ -82,7 +88,7 @@ public class Chart {
                 graphics.setForegroundColor(new TextColor.RGB(255, 255, 255));
             }
             graphics.fillRectangle(new TerminalPosition(x, end.getRow()-bars[i].intValue()),
-                    new TerminalSize(2, bars[i].intValue()), '█');
+                    new TerminalSize(2, bars[i].intValue()), '║');
             graphics.setForegroundColor(new TextColor.RGB(0, 255, 0));
             graphics.putString(x, end.getRow(), String.valueOf(array[i]));
         }

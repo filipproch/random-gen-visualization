@@ -97,8 +97,8 @@ public class TerminalDrawer {
 
     private void render() {
         try {
-            graphics.fillRectangle(graphStart, new TerminalSize(graphEnd.getColumn()-graphStart.getColumn(),
-                    graphEnd.getRow()-graphStart.getRow()), ' ');
+            graphics.fillRectangle(graphStart, new TerminalSize(graphEnd.getColumn()-graphStart.getColumn()+1,
+                    graphEnd.getRow()-graphStart.getRow()+1), ' ');
 
             int[] array;
             int[] highlight = null;
@@ -177,7 +177,6 @@ public class TerminalDrawer {
             while (running) {
                 try {
                     KeyStroke stroke = screen.readInput();
-                    Log.info(stroke.toString());
                     switch (stroke.getKeyType()) {
                         case Escape:
                             running = false;
