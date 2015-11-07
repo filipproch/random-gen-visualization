@@ -133,8 +133,7 @@ public class UltimateSorter {
     }
 
     public enum SortType {
-        SELECT(SelectSort.class), BUBBLE(BubbleSort.class),
-        INSERT(InsertSort.class), QUICK(QuickSort.class);
+        SELECT(SelectSort.class), BUBBLE(BubbleSort.class);
 
         private Class<? extends SortingAlgorithm> sortClass;
 
