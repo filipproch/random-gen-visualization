@@ -53,6 +53,10 @@ public class UltimateSorter {
 
         @Override
         public void step() {
+            if (array.length <= 1) {
+                sorted = true;
+                return;
+            }
             if(array[i] > array[i+1]) {
                 int p = array[i];
                 array[i] = array[i+1];
@@ -79,11 +83,15 @@ public class UltimateSorter {
 
         @Override
         public void step() {
+            if (array.length <= 1) {
+                sorted = true;
+                return;
+            }
             if (array[target] > array[j]) {
                 target = j;
             }
             j++;
-            if (j >= array.length-1) {
+            if (j >= array.length) {
                 int p = array[i];
                 array[i] = array[target];
                 array[target] = p;

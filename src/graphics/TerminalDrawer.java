@@ -9,6 +9,7 @@ import com.googlecode.lanterna.graphics.TextGraphics;
 import com.googlecode.lanterna.input.KeyStroke;
 import com.googlecode.lanterna.screen.TerminalScreen;
 import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
+import com.googlecode.lanterna.terminal.ResizeListener;
 import com.googlecode.lanterna.terminal.Terminal;
 
 import java.io.IOException;
@@ -19,7 +20,7 @@ import java.util.List;
 /**
  * @author Filip Prochazka (jacktech24)
  */
-public class TerminalDrawer {
+public class TerminalDrawer implements ResizeListener {
 
     private static final ArrayList<HelpItem<Character, String>> tutorial = new ArrayList<>();
 
@@ -28,6 +29,7 @@ public class TerminalDrawer {
         tutorial.add(new HelpItem<>('b', "prev chart"));
         tutorial.add(new HelpItem<>('s', "toggle sorted"));
         tutorial.add(new HelpItem<>('a', "start animation"));
+        tutorial.add(new HelpItem<>('k', "stop animation"));
         tutorial.add(new HelpItem<>('p', "pick algorithm"));
     }
 
@@ -42,6 +44,8 @@ public class TerminalDrawer {
     private boolean started = false;
     private boolean sorted = false;
     private boolean animating = false;
+
+    private Thread animationThread;
 
     private UltimateSorter.SortType sortingAlgorithmType = UltimateSorter.SortType.BUBBLE;
     private UltimateSorter.SortingAlgorithm algorithm;
@@ -59,6 +63,7 @@ public class TerminalDrawer {
                     .setSwingTerminalFrameTitle("Series Renderer v0.0.1 - by Filip Prochazka (A15B0549P)");
             fac.setInitialTerminalSize(new TerminalSize(120, 35));
             terminal = fac.createTerminal();
+            terminal.addResizeListener(this);
             screen = new TerminalScreen(terminal);
             graphics = screen.newTextGraphics();
         } catch (IOException e) {
@@ -199,6 +204,9 @@ public class TerminalDrawer {
                                 case 'p':
                                     nextAlgorithm();
                                     break;
+                                case 'k':
+                                    stopSortingAnimation();
+                                    break;
                             }
                             break;
                     }
@@ -210,6 +218,12 @@ public class TerminalDrawer {
         }
     };
 
+    private void stopSortingAnimation() {
+        if (animating) {
+            animationThread.interrupt();
+        }
+    }
+
     private void nextAlgorithm() {
         if (!animating) {
             UltimateSorter.SortType[] values = UltimateSorter.SortType.values();
@@ -218,7 +232,7 @@ public class TerminalDrawer {
         }
     }
 
-    private Runnable animationThread = new Runnable() {
+    private Runnable animationRunner = new Runnable() {
         @Override
         public void run() {
             algorithm = UltimateSorter.listSorter(charts.get(page).getBars(), sortingAlgorithmType);
@@ -232,6 +246,7 @@ public class TerminalDrawer {
                 }
             } while (!algorithm.sorted());
             animating = false;
+            sorted = true;
             render();
         }
     };
@@ -244,8 +259,11 @@ public class TerminalDrawer {
     }
 
     private void startSortingAnimation() {
-        animating = true;
-        new Thread(animationThread).start();
+        if (!animating) {
+            animating = true;
+            animationThread = new Thread(animationRunner);
+            animationThread.start();
+        }
     }
 
     private void nextPage() {
@@ -268,6 +286,11 @@ public class TerminalDrawer {
 
     public void stop() throws IOException {
         screen.stopScreen();
+    }
+
+    @Override
+    public void onResized(Terminal terminal, TerminalSize terminalSize) {
+
     }
 
     private static class HelpItem<K,V> {
