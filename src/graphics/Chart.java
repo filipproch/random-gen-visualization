@@ -2,13 +2,14 @@ package graphics;
 
 import com.googlecode.lanterna.TerminalPosition;
 import com.googlecode.lanterna.TerminalSize;
+import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.graphics.TextGraphics;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by jacktech24 on 30.10.15.
+ * @author Filip Prochazka (jacktech24)
  */
 public class Chart {
 
@@ -20,10 +21,10 @@ public class Chart {
     private final TerminalPosition start;
     private final TerminalPosition end;
 
-    private ArrayList<Integer> bars = new ArrayList<>();
-    private ArrayList<Float> cachedBars = new ArrayList<>();
+    private List<Integer> bars = new ArrayList<>();
 
     private boolean scroolable = false;
+
     private int barWidth;
     private int maxVal;
     private int barHeight;
@@ -33,44 +34,53 @@ public class Chart {
         this.end = end;
 
         bars.addAll(series);
-
-        calculate();
     }
 
-    private void calculate() {
-        int max = bars.get(0);
-        for(int i = 0;i < bars.size();i++) {
-            if(bars.get(i) > max) {
-                max = bars.get(i);
+    private Float[] calculate(int[] array) {
+        int max = array[0];
+        for(int i = 0;i < array.length;i++) {
+            if(array[i] > max) {
+                max = array[i];
             }
         }
         maxVal = max;
 
         TerminalSize drawingSpace =
                 new TerminalSize(
-                        Math.abs(start.getColumns()-end.getColumns()),
-                        Math.abs(start.getRows()-end.getRows()));
-        barWidth = (int) Math.floor(drawingSpace.getColumns()/(float)bars.size());
+                        Math.abs(start.getColumn()-end.getColumn()),
+                        Math.abs(start.getRow()-end.getRow()));
+        barWidth = (int) Math.floor(drawingSpace.getColumns()/(float)array.length);
         barWidth = barWidth < MIN_COLLUMN_WIDTH ? MIN_COLLUMN_WIDTH : barWidth;
 
         barHeight = drawingSpace.getRows();
 
         float coeficient = barHeight/(float)maxVal;
 
-        cachedBars.clear();
-        for(int i = 0;i < bars.size();i++) {
-            cachedBars.add(recalculateHeight(bars.get(i), coeficient));
+        List<Float> cachedBars = new ArrayList<>();
+        for (int i = 0;i < array.length;i++) {
+            cachedBars.add(recalculateHeight(array[i], coeficient));
         }
+        return cachedBars.toArray(new Float[cachedBars.size()]);
+    }
+
+    public List<Integer> getBars() {
+        return bars;
     }
 
     private Float recalculateHeight(Integer height, float coeficient) {
         return height * coeficient;
     }
 
-    public void render(TextGraphics graphics) {
-        graphics.drawRectangle(, end, '-');
-        graphics.drawLine(0, 10, end.getColumns(), 10, '-');
-        graphics.drawLine(0, 15, end.getColumns(), 15, '-');
+    public void render(TextGraphics graphics, int[] array) {
+        Float[] bars = calculate(array);
+        for (int i = 0;i < bars.length;i++) {
+            int x = start.getColumn()+3+4*i;
+            graphics.setForegroundColor(new TextColor.RGB(255, 0, 0));
+            graphics.fillRectangle(new TerminalPosition(x, end.getRow()-bars[i].intValue()),
+                    new TerminalSize(2, bars[i].intValue()), '█');
+            graphics.setForegroundColor(new TextColor.RGB(0, 255, 0));
+            graphics.putString(x, end.getRow(), String.valueOf(array[i]));
+        }
     }
 
 }

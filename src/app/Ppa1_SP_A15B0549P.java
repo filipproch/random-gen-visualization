@@ -1,4 +1,6 @@
-//import graphics.TerminalDrawer;
+package app;
+
+import graphics.TerminalDrawer;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -10,7 +12,6 @@ import java.util.List;
 import java.util.Scanner;
 
 /**
- * Created by fprochaz on 24.9.2015.
  * @author Filip Prochazka (fprochaz)
  */
 public class Ppa1_SP_A15B0549P {
@@ -27,12 +28,12 @@ public class Ppa1_SP_A15B0549P {
         DataWorker worker = new DataWorker();
 
         if(args.length > 0) {
-            //TerminalDrawer drawer = new TerminalDrawer();
-            /*try {
+            TerminalDrawer drawer = new TerminalDrawer();
+            try {
                 drawer.start();
             } catch (IOException e) {
                 e.printStackTrace();
-            }*/
+            }
             List<List<Integer>> seriesList = new ArrayList<>();
 
             //parameters entered
@@ -43,7 +44,7 @@ public class Ppa1_SP_A15B0549P {
                 seriesList.add(gen.getResults());
             }
 
-            //drawer.init(seriesList);
+            drawer.init(seriesList);
         } else {
             if(scanner == null) {
                 scanner = new Scanner(System.in);
@@ -119,7 +120,7 @@ public class Ppa1_SP_A15B0549P {
         private String formatData(ArrayList<Integer> data) {
             StringBuilder sb = new StringBuilder();
             sb.append(data.size()).append(" ").append(data.toString()).append("\n");
-            sb.append(data.size()).append(" ").append(Arrays.toString(mSorter.sortList(data))).append("\n");
+            sb.append(data.size()).append(" ").append(Arrays.toString(mSorter.sortList(data, UltimateSorter.SortType.SELECT))).append("\n");
             sb.append("\n");
             return sb.toString();
         }
@@ -133,73 +134,6 @@ public class Ppa1_SP_A15B0549P {
                     e.printStackTrace();
                 }
             }
-        }
-
-    }
-
-    private static class UltimateSorter {
-
-        private int[] mWorkArray;
-
-        public UltimateSorter() {}
-
-        /**
-         *
-         * @author Filip Prochazka
-         * @param unsortedList the list of data to sort
-         * @return sorted list ${unsortedList}, transformed to array
-         */
-        public int[] sortList(List<Integer> unsortedList) {
-            mWorkArray = new int[unsortedList.size()];
-            for(int i = 0;i < mWorkArray.length;i++) {
-                mWorkArray[i] = unsortedList.get(i);
-            }
-            sortSelectSort();
-            return mWorkArray;
-        }
-
-        private void sortSelectSort() {
-            for(int i = 0;i < mWorkArray.length;i++) {
-                for(int j = i+1;j < mWorkArray.length;j++) {
-                    if(mWorkArray[i] > mWorkArray[j]) {
-                        int cache = mWorkArray[i];
-                        mWorkArray[i] = mWorkArray[j];
-                        mWorkArray[j] = cache;
-                    }
-                }
-            }
-        }
-
-    }
-
-    private static class PseudoGenerator {
-
-        private ArrayList<Integer> pseudoNumbers;
-        private int startNumber;
-
-        public PseudoGenerator(){}
-
-        public void generate(int startNumber) {
-            pseudoNumbers = new ArrayList<>();
-            this.startNumber = startNumber;
-            runGenerator();
-        }
-
-        private void runGenerator() {
-            int lastNumber = startNumber;
-            do {
-                pseudoNumbers.add(lastNumber);
-                int power = (int) Math.pow(lastNumber, 2);
-                lastNumber = extractTwoDigits(power)+1;
-            } while(!pseudoNumbers.contains(lastNumber));
-        }
-
-        private int extractTwoDigits(int number) {
-            return Integer.parseInt(String.valueOf(number).substring(0, 2));
-        }
-
-        public ArrayList<Integer> getResults() {
-            return pseudoNumbers;
         }
 
     }
