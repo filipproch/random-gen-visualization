@@ -101,14 +101,16 @@ public class TerminalDrawer {
                     graphEnd.getRow()-graphStart.getRow()), ' ');
 
             int[] array;
+            int[] highlight = null;
             if (sorted && !animating) {
                 array = UltimateSorter.sortList(charts.get(page).getBars(), sortingAlgorithmType);
             } else if (animating) {
                 array = algorithm.getArray();
+                highlight = algorithm.getHighlighted();
             } else {
                 array = UltimateSorter.listToArray(charts.get(page).getBars());
             }
-            charts.get(page).render(graphics, array);
+            charts.get(page).render(graphics, array, highlight);
 
             renderStatusLine();
 
@@ -231,6 +233,7 @@ public class TerminalDrawer {
                 }
             } while (!algorithm.sorted());
             animating = false;
+            render();
         }
     };
 

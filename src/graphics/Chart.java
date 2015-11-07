@@ -1,5 +1,6 @@
 package graphics;
 
+import app.Utils;
 import com.googlecode.lanterna.TerminalPosition;
 import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.TextColor;
@@ -71,11 +72,15 @@ public class Chart {
         return height * coeficient;
     }
 
-    public void render(TextGraphics graphics, int[] array) {
+    public void render(TextGraphics graphics, int[] array, int[] highlight) {
         Float[] bars = calculate(array);
         for (int i = 0;i < bars.length;i++) {
             int x = start.getColumn()+3+4*i;
-            graphics.setForegroundColor(new TextColor.RGB(255, 0, 0));
+            if (highlight != null && Utils.arrayContains(highlight, i)) {
+                graphics.setForegroundColor(new TextColor.RGB(255, 0, 0));
+            } else {
+                graphics.setForegroundColor(new TextColor.RGB(255, 255, 255));
+            }
             graphics.fillRectangle(new TerminalPosition(x, end.getRow()-bars[i].intValue()),
                     new TerminalSize(2, bars[i].intValue()), '█');
             graphics.setForegroundColor(new TextColor.RGB(0, 255, 0));

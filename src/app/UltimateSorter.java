@@ -66,6 +66,11 @@ public class UltimateSorter {
             }
         }
 
+        @Override
+        public int[] getHighlighted() {
+            return new int[] {i, i+1};
+        }
+
     }
 
     public static class SelectSort extends SortingAlgorithm {
@@ -92,6 +97,11 @@ public class UltimateSorter {
             }
         }
 
+        @Override
+        public int[] getHighlighted() {
+            return new int[] {i, j, target};
+        }
+
     }
 
     public static class InsertSort extends SortingAlgorithm {
@@ -101,6 +111,11 @@ public class UltimateSorter {
 
         }
 
+        @Override
+        public int[] getHighlighted() {
+            return new int[0];
+        }
+
     }
 
     public static class QuickSort extends SortingAlgorithm {
@@ -108,6 +123,11 @@ public class UltimateSorter {
         @Override
         public void step() {
 
+        }
+
+        @Override
+        public int[] getHighlighted() {
+            return new int[0];
         }
 
     }
@@ -139,6 +159,7 @@ public class UltimateSorter {
         public SortingAlgorithm(){}
 
         public abstract void step();
+        public abstract int[] getHighlighted();
 
         public boolean sorted() {
             return sorted;
