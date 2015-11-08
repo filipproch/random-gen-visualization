@@ -1,6 +1,5 @@
 package graphics;
 
-import app.Log;
 import app.UltimateSorter;
 import com.googlecode.lanterna.TerminalPosition;
 import com.googlecode.lanterna.TerminalSize;
@@ -14,7 +13,6 @@ import com.googlecode.lanterna.terminal.Terminal;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -308,17 +306,5 @@ public class TerminalDrawer implements ResizeListener {
             return super.toString();
         }
     }
-
-    /*public void test() {
-        try {
-            graphics.drawRectangle(
-                    new TerminalPosition(3, 3), new TerminalSize(10, 10), '█');
-            screen.refresh();
-
-            screen.readInput();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }*/
 
 }

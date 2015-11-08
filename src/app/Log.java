@@ -3,6 +3,8 @@ package app;
 import java.util.logging.Logger;
 
 /**
+ * Help class for logging to console
+ *
  * @author Filip Prochazka (jacktech24)
  */
 public class Log {

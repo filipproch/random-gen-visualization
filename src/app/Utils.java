@@ -1,6 +1,7 @@
 package app;
 
 /**
+ * Utility class with methods that are helpful in the context of the application
  * @author Filip Prochazka (jacktech24)
  */
 public class Utils {

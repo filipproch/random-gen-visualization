@@ -3,22 +3,24 @@ package app;
 import java.util.ArrayList;
 
 /**
+ * Generator of series of pseudo-random numbers, requires a starting number
  * @author Filip Prochazka (jacktech24)
  */
 public class PseudoGenerator {
 
-    private ArrayList<Integer> pseudoNumbers;
-    private int startNumber;
+    private PseudoGenerator(){}
 
-    public PseudoGenerator(){}
-
-    public void generate(int startNumber) {
-        pseudoNumbers = new ArrayList<>();
-        this.startNumber = startNumber;
-        runGenerator();
+    /**
+     * Generates series of pseudo-random numbers
+     * @param startNumber A number required as seed to start generation from
+     */
+    public static ArrayList<Integer> generate(int startNumber) {
+        ArrayList<Integer> pseudoNumbers = new ArrayList<>();
+        runGenerator(startNumber, pseudoNumbers);
+        return pseudoNumbers;
     }
 
-    private void runGenerator() {
+    private static void runGenerator(int startNumber, ArrayList<Integer> pseudoNumbers) {
         int lastNumber = startNumber;
         do {
             pseudoNumbers.add(lastNumber);
@@ -27,12 +29,8 @@ public class PseudoGenerator {
         } while(!pseudoNumbers.contains(lastNumber));
     }
 
-    private int extractTwoDigits(int number) {
+    private static int extractTwoDigits(int number) {
         return Integer.parseInt(String.valueOf(number).substring(0, 2));
-    }
-
-    public ArrayList<Integer> getResults() {
-        return pseudoNumbers;
     }
 
 }

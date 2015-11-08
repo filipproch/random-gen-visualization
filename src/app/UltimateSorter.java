@@ -3,6 +3,7 @@ package app;
 import java.util.List;
 
 /**
+ * A help class for sorting series of numbers (integers), all sorts are written in a way that going step by step is possible.
  * @author Filip Prochazka (jacktech24)
  */
 public class UltimateSorter {
@@ -46,6 +47,10 @@ public class UltimateSorter {
         return mWorkArray;
     }
 
+    /**
+     * Bubble Sort implementation, definition on
+     * <a href="https://en.wikipedia.org/wiki/Bubble_sort">Wikipedia</a>
+     */
     public static class BubbleSort extends SortingAlgorithm {
 
         int i = 0;
@@ -77,6 +82,10 @@ public class UltimateSorter {
 
     }
 
+    /**
+     * Selection Sort implementation, definition on
+     * <a href="https://en.wikipedia.org/wiki/Selection_sort">Wikipedia</a>
+     */
     public static class SelectSort extends SortingAlgorithm {
 
         int i = 0, j = 1, target = 0;
@@ -112,11 +121,15 @@ public class UltimateSorter {
 
     }
 
+    /**
+     * Insertion Sort implementation, definition on
+     * <a href="https://en.wikipedia.org/wiki/Insertion_sort">Wikipedia</a>
+     */
     public static class InsertSort extends SortingAlgorithm {
 
         @Override
         public void step() {
-
+            //todo
         }
 
         @Override
@@ -126,11 +139,15 @@ public class UltimateSorter {
 
     }
 
+    /**
+     * Quicksort implementation, definition on
+     * <a href="https://en.wikipedia.org/wiki/Quicksort">Wikipedia</a>
+     */
     public static class QuickSort extends SortingAlgorithm {
 
         @Override
         public void step() {
-
+            //todo
         }
 
         @Override

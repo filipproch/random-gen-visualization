@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * A Chart object represents one chart of a series of integers
  * @author Filip Prochazka (jacktech24)
  */
 public class Chart {
@@ -30,6 +31,9 @@ public class Chart {
     private int maxVal;
     private int barHeight;
 
+    /**
+     * @param series The series the chart will represent
+     */
     public Chart(List<Integer> series, TerminalPosition start, TerminalPosition end) {
         this.start = start;
         this.end = end;

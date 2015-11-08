@@ -24,7 +24,6 @@ public class Ppa1_SP_A15B0549P {
      * @param args command line arguments
      */
     public Ppa1_SP_A15B0549P(String[] args) {
-        PseudoGenerator gen = new PseudoGenerator();
         DataWorker worker = new DataWorker();
 
         if(args.length > 0) {
@@ -39,9 +38,9 @@ public class Ppa1_SP_A15B0549P {
             //parameters entered
             for(String numString : args) {
                 int num = Integer.parseInt(numString);
-                gen.generate(num);
-                worker.writeFormattedData(gen.getResults());
-                seriesList.add(gen.getResults());
+                ArrayList<Integer> integers = PseudoGenerator.generate(num);
+                worker.writeFormattedData(integers);
+                seriesList.add(integers);
             }
 
             drawer.init(seriesList);
@@ -55,8 +54,8 @@ public class Ppa1_SP_A15B0549P {
                 String line;
                 while((line = reader.readLine()) != null) {
                     int num = Integer.parseInt(line);
-                    gen.generate(num);
-                    worker.printFormattedData(gen.getResults());
+                    ArrayList<Integer> integers = PseudoGenerator.generate(num);
+                    worker.printFormattedData(integers);
                 }
                 reader.close();
             } catch (Exception e) {
@@ -71,6 +70,9 @@ public class Ppa1_SP_A15B0549P {
         new Ppa1_SP_A15B0549P(args);
     }
 
+    /**
+     * A help class used to format and print/store series of data
+     */
     private static class DataWorker {
 
         private FileWriter mWriter;
@@ -117,6 +119,11 @@ public class Ppa1_SP_A15B0549P {
             }
         }
 
+        /**
+         * Formats the given list of integers in a specific way
+         * @param data the list of data to format
+         * @return list of data formatted into a {@link String}
+         */
         private String formatData(ArrayList<Integer> data) {
             StringBuilder sb = new StringBuilder();
             sb.append(data.size()).append(" ").append(data.toString()).append("\n");
