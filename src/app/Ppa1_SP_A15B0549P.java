@@ -33,20 +33,26 @@ public class Ppa1_SP_A15B0549P {
             }
             List<List<Integer>> seriesList = new ArrayList<>();
 
-            if(args[0].equals("random")) {
-                seriesList.add(PseudoGenerator.generate(random.nextInt()));
-            } else if(args[0].equals("all")) {
-                for(int i = 10;i <= 99;i++) {
-                    seriesList.add(PseudoGenerator.generate(i));
-                }
-            } else {
-                //parameters entered
-                for(String numString : args) {
-                    int num = Integer.parseInt(numString);
-                    ArrayList<Integer> integers = PseudoGenerator.generate(num);
-                    worker.writeFormattedData(integers);
-                    seriesList.add(integers);
-                }
+            switch (args[0]) {
+                case "random":
+                    for(int i = 0;i < random.nextInt(20);i++) {
+                        seriesList.add(PseudoGenerator.generate(random.nextInt(80) + 10));
+                    }
+                    break;
+                case "all":
+                    for (int i = 10; i <= 99; i++) {
+                        seriesList.add(PseudoGenerator.generate(i));
+                    }
+                    break;
+                default:
+                    //parameters entered
+                    for (String numString : args) {
+                        int num = Integer.parseInt(numString);
+                        ArrayList<Integer> integers = PseudoGenerator.generate(num);
+                        worker.writeFormattedData(integers);
+                        seriesList.add(integers);
+                    }
+                    break;
             }
 
             drawer.init(seriesList);
