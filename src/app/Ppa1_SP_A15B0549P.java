@@ -6,17 +6,15 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 /**
  * @author Filip Prochazka (fprochaz)
  */
 public class Ppa1_SP_A15B0549P {
 
-    private static Scanner scanner = new Scanner(System.in);
+    private static final Scanner scanner = new Scanner(System.in);
+    private static final Random random = new Random();
 
     /**
      * Main class constructor, call from main
@@ -35,19 +33,24 @@ public class Ppa1_SP_A15B0549P {
             }
             List<List<Integer>> seriesList = new ArrayList<>();
 
-            //parameters entered
-            for(String numString : args) {
-                int num = Integer.parseInt(numString);
-                ArrayList<Integer> integers = PseudoGenerator.generate(num);
-                worker.writeFormattedData(integers);
-                seriesList.add(integers);
+            if(args[0].equals("random")) {
+                seriesList.add(PseudoGenerator.generate(random.nextInt()));
+            } else if(args[0].equals("all")) {
+                for(int i = 10;i <= 99;i++) {
+                    seriesList.add(PseudoGenerator.generate(i));
+                }
+            } else {
+                //parameters entered
+                for(String numString : args) {
+                    int num = Integer.parseInt(numString);
+                    ArrayList<Integer> integers = PseudoGenerator.generate(num);
+                    worker.writeFormattedData(integers);
+                    seriesList.add(integers);
+                }
             }
 
             drawer.init(seriesList);
         } else {
-            if(scanner == null) {
-                scanner = new Scanner(System.in);
-            }
             String file = scanner.nextLine();
             try {
                 BufferedReader reader = new BufferedReader(new FileReader(file));
