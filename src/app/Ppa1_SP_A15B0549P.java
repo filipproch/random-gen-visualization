@@ -35,7 +35,7 @@ public class Ppa1_SP_A15B0549P {
 
             switch (args[0]) {
                 case "random":
-                    for(int i = 0;i < random.nextInt(20);i++) {
+                    for(int i = 0;i < random.nextInt(20)+1;i++) {
                         seriesList.add(PseudoGenerator.generate(random.nextInt(80) + 10));
                     }
                     break;

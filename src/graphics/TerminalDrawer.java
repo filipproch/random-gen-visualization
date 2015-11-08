@@ -242,15 +242,14 @@ public class TerminalDrawer implements ResizeListener {
         @Override
         public void run() {
             algorithm = UltimateSorter.listSorter(charts.get(page).getBars(), sortingAlgorithmType);
-            do {
-                algorithm.step();
+            while (algorithm.step()){
                 render();
                 try {
                     Thread.sleep(200);
                 } catch (InterruptedException e) {
                     break;
                 }
-            } while (!algorithm.sorted());
+            }
             animating = false;
             sorted = true;
             render();

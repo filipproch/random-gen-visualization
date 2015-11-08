@@ -56,10 +56,9 @@ public class UltimateSorter {
         boolean pass = true;
 
         @Override
-        public void step() {
-            if (array.length <= 1) {
-                sorted = true;
-                return;
+        public boolean step() {
+            if(!super.step()) {
+                return false;
             }
             if(array[i] > array[i+1]) {
                 int p = array[i];
@@ -72,6 +71,7 @@ public class UltimateSorter {
                 pass = true;
                 i = 0;
             }
+            return true;
         }
 
         @Override
@@ -90,10 +90,9 @@ public class UltimateSorter {
         int i = 0, j = 1, target = 0;
 
         @Override
-        public void step() {
-            if (array.length <= 1) {
-                sorted = true;
-                return;
+        public boolean step() {
+            if(!super.step()) {
+                return false;
             }
             if (array[target] > array[j]) {
                 target = j;
@@ -111,6 +110,7 @@ public class UltimateSorter {
                     sorted = true;
                 }
             }
+            return true;
         }
 
         @Override
@@ -126,27 +126,66 @@ public class UltimateSorter {
      */
     public static class InsertSort extends SortingAlgorithm {
 
+        private boolean moving = false;
+        private boolean main = true;
+        private int r = 0, j = 1, s = -1, num = -1;
+
         @Override
-        public void step() {
-            //todo
+        public boolean step() {
+            if(!super.step()) {
+                return false;
+            }
+            if(!main) {
+                if(moving) {
+                    if(s >= r+1) {
+                        array[s+1] = array[s];
+                        s--;
+                    } else {
+                        moving = false;
+                        main = true;
+                        array[r+1] = num;
+                        j++;
+                    }
+                } else {
+                    if (r >= 0 && array[r] > array[j]) {
+                        r--;
+                    } else {
+                        s = j-1;
+                        moving = true;
+                    }
+                }
+            } else {
+                if(array[j-1] > array[j]) {
+                    r = j-1;
+                    num = array[j];
+                    main = false;
+                } else {
+                    j++;
+                }
+            }
+            if(j >= array.length) {
+                sorted = true;
+            }
+            return true;
         }
 
         @Override
         public int[] getHighlighted() {
-            return new int[0];
+            return new int[] {r, j, s};
         }
 
     }
 
     /**
-     * Quicksort implementation, definition on
-     * <a href="https://en.wikipedia.org/wiki/Quicksort">Wikipedia</a>
+     * Heapsort implementation, definition on
+     * <a href="https://en.wikipedia.org/wiki/Heapsort">Wikipedia</a>
      */
-    public static class QuickSort extends SortingAlgorithm {
+    public static class Heapsort extends SortingAlgorithm {
 
         @Override
-        public void step() {
+        public boolean step() {
             //todo
+            return true;
         }
 
         @Override
@@ -157,7 +196,7 @@ public class UltimateSorter {
     }
 
     public enum SortType {
-        SELECT(SelectSort.class), BUBBLE(BubbleSort.class);
+        SELECT(SelectSort.class), BUBBLE(BubbleSort.class), INSERT(InsertSort.class);
 
         private Class<? extends SortingAlgorithm> sortClass;
 
@@ -181,12 +220,14 @@ public class UltimateSorter {
 
         public SortingAlgorithm(){}
 
-        public abstract void step();
-        public abstract int[] getHighlighted();
-
-        public boolean sorted() {
-            return sorted;
+        public boolean step() {
+            if (array.length <= 1) {
+                sorted = true;
+                return false;
+            }
+            return !sorted;
         }
+        public abstract int[] getHighlighted();
 
         public void passArray(int[] array) {
             this.array = array;
