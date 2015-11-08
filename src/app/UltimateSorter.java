@@ -220,6 +220,10 @@ public class UltimateSorter {
 
         public SortingAlgorithm(){}
 
+        /**
+         * Move one step in sorting algorithm
+         * @return whether sorting is done or not
+         */
         public boolean step() {
             if (array.length <= 1) {
                 sorted = true;
@@ -227,12 +231,23 @@ public class UltimateSorter {
             }
             return !sorted;
         }
+
+        /**
+         * Which indexes in the sorting array are currently being used
+         * @return array of currently used indexes
+         */
         public abstract int[] getHighlighted();
 
+        /**
+         * @param array an unsorted array to be sorted
+         */
         public void passArray(int[] array) {
             this.array = array;
         }
 
+        /**
+         * @return array in its current state
+         */
         public int[] getArray() {
             return array;
         }
