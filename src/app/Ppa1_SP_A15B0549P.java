@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.util.*;
 
 /**
+ * Main class, the entry point
  * @author Filip Prochazka (fprochaz)
  */
 public class Ppa1_SP_A15B0549P {
@@ -17,8 +18,7 @@ public class Ppa1_SP_A15B0549P {
     private static final Random random = new Random();
 
     /**
-     * Main class constructor, call from main
-     * @author Filip Prochazka
+     * Main class constructor, called from main
      * @param args command line arguments
      */
     public Ppa1_SP_A15B0549P(String[] args) {
@@ -97,7 +97,6 @@ public class Ppa1_SP_A15B0549P {
          *     ${data.size()} [data.get(0), ..., data.get(data.size()-1)] //unsorted
          *     ${data.size()} [...] //sorted data
          * </pre>
-         * @author Filip Prochazka
          * @param data the list of data to print
          */
         public void printFormattedData(ArrayList<Integer> data) {
@@ -110,7 +109,6 @@ public class Ppa1_SP_A15B0549P {
 
         /**
          * Writes given data to file in required format
-         * @author Filip Prochazka
          * @param data the list of data to write to file
          */
         public void writeFormattedData(ArrayList<Integer> data) {

@@ -12,7 +12,6 @@ public class UltimateSorter {
 
     /**
      *
-     * @author Filip Prochazka
      * @param unsortedList the list of data to sort
      * @return sorted list ${unsortedList}, transformed to array
      */

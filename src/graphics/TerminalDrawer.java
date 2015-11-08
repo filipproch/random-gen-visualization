@@ -69,6 +69,10 @@ public class TerminalDrawer implements ResizeListener {
         }
     }
 
+    /**
+     *
+     * @throws IOException
+     */
     public void start() throws IOException {
         if(!started) {
             screen.startScreen();
@@ -85,6 +89,10 @@ public class TerminalDrawer implements ResizeListener {
         }
     }
 
+    /**
+     *
+     * @param listSeries
+     */
     public void init(List<List<Integer>> listSeries) {
         if(!started) {
             throw new RuntimeException("You must start Terminal screen first");
@@ -288,7 +296,7 @@ public class TerminalDrawer implements ResizeListener {
 
     @Override
     public void onResized(Terminal terminal, TerminalSize terminalSize) {
-
+        //todo
     }
 
     private static class HelpItem<K,V> {

@@ -6,6 +6,12 @@ package app;
  */
 public class Utils {
 
+    /**
+     *
+     * @param array
+     * @param o
+     * @return
+     */
     public static boolean arrayContains(int[] array, int o) {
         for (int o2 : array) {
             if (o2 == o) {

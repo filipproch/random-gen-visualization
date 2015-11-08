@@ -68,6 +68,10 @@ public class Chart {
         return cachedBars.toArray(new Float[cachedBars.size()]);
     }
 
+    /**
+     *
+     * @return
+     */
     public List<Integer> getBars() {
         return bars;
     }
@@ -76,6 +80,12 @@ public class Chart {
         return height * coeficient;
     }
 
+    /**
+     *
+     * @param graphics
+     * @param array
+     * @param highlight
+     */
     public void render(TextGraphics graphics, int[] array, int[] highlight) {
         int step = (int) Math.ceil((end.getRow()-start.getRow())/10f);
         for (int i = 0;i < 10;i++) {
