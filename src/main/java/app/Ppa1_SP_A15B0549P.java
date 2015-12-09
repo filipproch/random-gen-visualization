@@ -14,7 +14,7 @@ import java.util.*;
  */
 public class Ppa1_SP_A15B0549P {
 
-    public static final String APP_VERSION = "0.7.0";
+    public static final String APP_VERSION = "1.0.0";
     public static final String APP_AUTHOR = "Filip Prochazka (A15B0549P)";
 
     private static final Scanner scanner = new Scanner(System.in);

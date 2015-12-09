@@ -7,6 +7,8 @@ java -jar app.jar ## ## ## ...
 ```
 replace ## with actual 2 digit integers
 
+(You can also use secret arguments "random" or "all" instead of the actual integers)
+
 also the generated series of pseudo-random numbers will be stored in file called "vystup.txt" ("vystup" is a czech word for output)
 
 #### Option 2 - input file
