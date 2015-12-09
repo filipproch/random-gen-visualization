@@ -82,7 +82,7 @@ public class Ppa1_SP_A15B0549P {
     /**
      * A help class used to format and print/store series of data
      */
-    private static class DataWorker {
+    public static class DataWorker {
 
         private FileWriter mWriter;
         private UltimateSorter mSorter = new UltimateSorter();
@@ -147,9 +147,14 @@ public class Ppa1_SP_A15B0549P {
                 } catch (IOException e){
                     e.printStackTrace();
                 }
+                mWriter = null;
             }
         }
 
+        public void release() {
+            close();
+            mSorter = null;
+        }
     }
 
 }
