@@ -1,0 +1,13 @@
+apply plugin: 'application'
+apply plugin: 'java'
+
+mainClassName = "app.Ppa1_SP_A15B0549P"
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    compile 'com.googlecode.lanterna:lanterna:3.0.0-beta1'
+
+}
