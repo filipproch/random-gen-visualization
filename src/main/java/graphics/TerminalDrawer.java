@@ -1,5 +1,6 @@
 package graphics;
 
+import app.Ppa1_SP_A15B0549P;
 import app.UltimateSorter;
 import com.googlecode.lanterna.TerminalPosition;
 import com.googlecode.lanterna.TerminalSize;
@@ -51,14 +52,15 @@ public class TerminalDrawer implements ResizeListener {
     private TerminalPosition graphStart;
     private TerminalPosition graphEnd;
 
-    public TerminalDrawer(){
+    public TerminalDrawer() {
         initTerminal();
     }
 
     private void initTerminal() {
         try {
             DefaultTerminalFactory fac = new DefaultTerminalFactory()
-                    .setSwingTerminalFrameTitle("Series Renderer v0.0.1 - by Filip Prochazka (A15B0549P)");
+                    .setSwingTerminalFrameTitle("Series Renderer " + Ppa1_SP_A15B0549P.APP_VERSION
+                            + " - by " + Ppa1_SP_A15B0549P.APP_AUTHOR);
             fac.setInitialTerminalSize(new TerminalSize(120, 35));
             terminal = fac.createTerminal();
             terminal.addResizeListener(this);
@@ -70,18 +72,17 @@ public class TerminalDrawer implements ResizeListener {
     }
 
     /**
-     *
      * @throws IOException
      */
     public void start() throws IOException {
-        if(!started) {
+        if (!started) {
             screen.startScreen();
             screen.setCursorPosition(null);
             terminal.setCursorVisible(false);
             screen.clear();
 
             graphStart = new TerminalPosition(2, 4);
-            graphEnd = new TerminalPosition(terminal.getTerminalSize().getColumns()-2, terminal.getTerminalSize().getRows()-2);
+            graphEnd = new TerminalPosition(terminal.getTerminalSize().getColumns() - 2, terminal.getTerminalSize().getRows() - 2);
 
             started = true;
         } else {
@@ -90,15 +91,14 @@ public class TerminalDrawer implements ResizeListener {
     }
 
     /**
-     *
      * @param listSeries
      */
     public void init(List<List<Integer>> listSeries) {
-        if(!started) {
+        if (!started) {
             throw new RuntimeException("You must start Terminal screen first");
         }
 
-        for(List<Integer> serie: listSeries) {
+        for (List<Integer> serie : listSeries) {
             charts.add(new Chart(serie, graphStart, graphEnd));
         }
 
@@ -108,8 +108,8 @@ public class TerminalDrawer implements ResizeListener {
 
     private void render() {
         try {
-            graphics.fillRectangle(graphStart, new TerminalSize(graphEnd.getColumn()-graphStart.getColumn()+1,
-                    graphEnd.getRow()-graphStart.getRow()+1), ' ');
+            graphics.fillRectangle(graphStart, new TerminalSize(graphEnd.getColumn() - graphStart.getColumn() + 1,
+                    graphEnd.getRow() - graphStart.getRow() + 1), ' ');
 
             int[] array;
             int[] highlight = null;
@@ -134,14 +134,14 @@ public class TerminalDrawer implements ResizeListener {
     private void renderStatusLine() {
         try {
             graphics.setForegroundColor(new TextColor.RGB(255, 255, 255));
-            int rowNumber = terminal.getTerminalSize().getRows()-1;
-            int colNumber = terminal.getTerminalSize().getColumns()-1;
+            int rowNumber = terminal.getTerminalSize().getRows() - 1;
+            int colNumber = terminal.getTerminalSize().getColumns() - 1;
             int column = 1;
             int row = 1;
             graphics.setCharacter(0, 0, '┏');
             graphics.setCharacter(0, 1, '┃');
             graphics.setCharacter(0, 2, '┣');
-            for (int i = 3;i < rowNumber;i++) {
+            for (int i = 3; i < rowNumber; i++) {
                 graphics.setCharacter(0, i, '┃');
                 graphics.setCharacter(colNumber, i, '┃');
             }
@@ -150,28 +150,28 @@ public class TerminalDrawer implements ResizeListener {
             graphics.setCharacter(colNumber, 1, '┃');
             graphics.setCharacter(colNumber, 2, '┫');
             graphics.setCharacter(colNumber, rowNumber, '┛');
-            graphics.drawLine(1, rowNumber, colNumber-1, rowNumber, '━');
+            graphics.drawLine(1, rowNumber, colNumber - 1, rowNumber, '━');
 
-            for (int i = 0;i < tutorial.size();i++) {
+            for (int i = 0; i < tutorial.size(); i++) {
                 StringBuilder help = new StringBuilder()
                         .append(" ").append(tutorial.get(i).o1).append(" = ")
                         .append(tutorial.get(i).o2).append(" ").append("┃");
                 graphics.putString(column, row, help.toString());
-                int targetColumn = column+(help.length()-1);
-                graphics.drawLine(column, row+1, targetColumn, row+1, '━');
-                graphics.drawLine(column, row-1, targetColumn, row-1, '━');
-                column += help.length()-1;
-                graphics.setCharacter(column, row+1, '┻');
-                graphics.setCharacter(column, row-1, '┳');
+                int targetColumn = column + (help.length() - 1);
+                graphics.drawLine(column, row + 1, targetColumn, row + 1, '━');
+                graphics.drawLine(column, row - 1, targetColumn, row - 1, '━');
+                column += help.length() - 1;
+                graphics.setCharacter(column, row + 1, '┻');
+                graphics.setCharacter(column, row - 1, '┳');
                 column += 1;
             }
-            if(column < colNumber-1) {
-                graphics.drawLine(column, 0, colNumber-1, 0, '━');
-                graphics.drawLine(column, 2, colNumber-1, 2, '━');
+            if (column < colNumber - 1) {
+                graphics.drawLine(column, 0, colNumber - 1, 0, '━');
+                graphics.drawLine(column, 2, colNumber - 1, 2, '━');
             }
-            graphics.putString(1, rowNumber, " chart " + (page+1) + " of " + charts.size() + " ");
-            String sortName = sortingAlgorithmType.name()+" SORT";
-            graphics.putString(colNumber-sortName.length()-2, rowNumber, " "+sortName+" ");
+            graphics.putString(1, rowNumber, " chart " + (page + 1) + " of " + charts.size() + " ");
+            String sortName = sortingAlgorithmType.name() + " SORT";
+            graphics.putString(colNumber - sortName.length() - 2, rowNumber, " " + sortName + " ");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -233,7 +233,7 @@ public class TerminalDrawer implements ResizeListener {
     private void nextAlgorithm() {
         if (!animating) {
             UltimateSorter.SortType[] values = UltimateSorter.SortType.values();
-            sortingAlgorithmType = values[(sortingAlgorithmType.ordinal()+1)%values.length];
+            sortingAlgorithmType = values[(sortingAlgorithmType.ordinal() + 1) % values.length];
             render();
         }
     }
@@ -242,7 +242,7 @@ public class TerminalDrawer implements ResizeListener {
         @Override
         public void run() {
             algorithm = UltimateSorter.listSorter(charts.get(page).getBars(), sortingAlgorithmType);
-            while (algorithm.step()){
+            while (algorithm.step()) {
                 render();
                 try {
                     Thread.sleep(200);
@@ -298,7 +298,7 @@ public class TerminalDrawer implements ResizeListener {
         //todo
     }
 
-    private static class HelpItem<K,V> {
+    private static class HelpItem<K, V> {
 
         public final K o1;
         public final V o2;
